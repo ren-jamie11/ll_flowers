@@ -187,7 +187,7 @@ df = pd.read_parquet("final_flower_america_df.parquet")
 df = df.dropna(subset = ['plant_type', 'product_type'])
 df['how_many_flowers'] = df['flower_type'].apply(len)
 
-filter_columns = ['flower_type', 'plant_type', 'flower_colors', 'product_type', 'container', 'how_many_flowers', 'flowers_in_name']
+filter_columns = ['flower_type', 'flower_colors', 'product_type', 'container', 'how_many_flowers', 'store_name']
 trimmed_df = filter_dataframe(df, filter_columns) 
 
 if len(trimmed_df) > 0:
