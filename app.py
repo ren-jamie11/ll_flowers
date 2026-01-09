@@ -319,7 +319,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                         args=(column,),
                     )
 
-                    exact_match = col_widget.checkbox("Exact match",
+                    exact_match = col_widget.checkbox("Exact match", value=True,
                                             key=f"exact_match_{column}")
                     
 
