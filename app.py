@@ -180,7 +180,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
 
 # --- Streamlit Setup ---
 st.set_page_config(page_title="Image Keyword Filter", layout="wide")
-st.title("🖼️ Multi-Category Image Keyword Filter")
+st.title("🖼️ Flower Pictures")
 
 # --- Load DataFrame ---
 df = pd.read_parquet("final_flower_america_df.parquet")
