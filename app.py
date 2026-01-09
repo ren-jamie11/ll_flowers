@@ -5,6 +5,150 @@ import random
 import os
 from PIL import Image, UnidentifiedImageError, ImageOps
 
+FLOWER_LIST = [" ",'hydrangea',
+ 'rose',
+ 'orchid',
+ 'peony',
+ 'ranunculus',
+ 'tulip',
+ 'dahlia',
+ 'magnolia',
+ 'calla lily',
+ 'cherryblossom',
+ 'lily',
+ 'anemone',
+ 'daisy',
+ 'delphinium',
+ 'amaryllis',
+ 'lilac',
+ 'chrysanthemum',
+ 'carnation',
+ 'hellebore',
+ 'poppy',
+ 'protea',
+ 'anthurium',
+ 'allium',
+ 'poinsettia',
+ 'sunflower',
+ 'zinnia',
+ 'lavender',
+ 'gladiolus',
+ 'viburnum',
+ 'snapdragon',
+ 'hyacinth',
+ 'jasmine',
+ 'geranium',
+ 'narcissus',
+ 'iris',
+ 'bougainvillea',
+ 'pansy',
+ 'sweet pea',
+ 'bird of paradise',
+ 'gardenia',
+ 'lily of the valley',
+ "baby's breath",
+ 'lisianthus',
+ 'camellia',
+ 'dogwood',
+ 'petunia',
+ 'bromeliad',
+ 'heliconia',
+ 'waxflower',
+ 'freesia',
+ 'grape hyacinth',
+ 'pincushion protea',
+ 'forsythia',
+ 'cosmos',
+ 'bells of ireland',
+ 'hibiscus',
+ 'amaranthus',
+ 'yarrow',
+ 'succulent',
+ 'helleborus',
+ 'mimosa',
+ 'astilbe',
+ 'flower',
+ 'primrose',
+ 'tuberose',
+ 'agapanthus',
+ 'cornflower',
+ 'gerbera',
+ 'stock',
+ 'wisteria',
+ 'artichoke',
+ 'azalea',
+ 'scabiosa',
+ 'african violet',
+ "queen anne's lace",
+ 'roses',
+ 'gloriosa lily',
+ 'kalanchoe',
+ 'cyclamen',
+ 'marigold',
+ 'pussy willow',
+ 'salvia',
+ 'thistle',
+ 'violet',
+ 'water lily',
+ 'billy balls',
+ 'cockscomb',
+ 'craspedia',
+ 'foxglove',
+ 'kangaroo paw',
+ 'ornamental cabbage',
+ 'unknown',
+ 'aloe',
+ 'alstroemeria',
+ 'artichoke flower',
+ 'banksia',
+ 'begonia',
+ 'bell of ireland',
+ 'bellflower',
+ 'billy buttons',
+ 'blossom',
+ 'california poppy',
+ 'campanula',
+ 'clematis',
+ 'crocus',
+ 'dianthus',
+ 'eucalyptus',
+ 'forget me not',
+ 'fountain grass',
+ 'fritillaria',
+ 'gerbera daisy',
+ 'ginger',
+ 'gypsophila',
+ 'millet',
+ 'other',
+ 'peace lily',
+ 'phlox',
+ 'plumeria',
+ 'pompom flower',
+ 'statice',
+ 'strawberry flower',
+ 'veronica',
+ 'wildflower']
+
+COLOR_LIST = [" ",'white',
+ 'pink',
+ 'yellow',
+ 'red',
+ 'green',
+ 'purple',
+ 'orange',
+ 'cream',
+ 'blue',
+ 'peach',
+ 'magenta',
+ 'brown',
+ 'tan',
+ 'beige',
+ 'gold',
+ 'burgundy',
+ 'grey',
+ 'lavender',
+ 'violet']
+
 from pandas.api.types import (
     is_categorical_dtype,
     is_datetime64_any_dtype,
@@ -54,7 +198,8 @@ def filter_rows_by_all_keywords(df, col, keywords, all_keywords=False):
             return cell_set == keywords_set
         else:
             # SUPERSET match: must contain all keywords (extras allowed)
-            return keywords_set.issubset(cell_set)
+            return bool(keywords_set & cell_set)
+            #return keywords_set.issubset(cell_set)
 
     mask = df[col].apply(contains_keywords)
     return df[mask]
@@ -108,7 +253,34 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                     if f"selected_keywords_{column}" not in st.session_state:
                         st.session_state[f"selected_keywords_{column}"] = []
 
-                    col_widget.text_input(
+                    # add flower
+                    if column == "花":
+
+                        col_widget.selectbox('Flower',
+                                             options=FLOWER_LIST[:15],
+                                             key=f"new_keyword_{column}",
+                                             on_change = add_keyword_1,
+                                             args=(column,),
+                            )
+                        
+                    elif column == "花色":
+
+                        col_widget.selectbox('Color',
+                                             options=COLOR_LIST,
+                                             key=f"new_keyword_{column}",
+                                             on_change = add_keyword_1,
+                                             args=(column,),
+                            )
+
+                    #     col_widget.text_input(
+                    #     f"flowerrrr {column}:",
+                    #     key=f"new_keyword_{column}",
+                    #     on_change=add_keyword_1,
+                    #     args=(column,),
+                    # )
+
+                    else:
+                        col_widget.text_input(
                         f"{column}:",
                         key=f"new_keyword_{column}",
                         on_change=add_keyword_1,
@@ -222,8 +394,8 @@ if st.button("🎨 加载图片"):
 
             try:
 
-                url = to_str(row.get("Product Link", ""))
-                title = to_str(row.get("Name", ""))
+                url = to_str(row.get("产品链接", ""))
+                title = to_str(row.get("产品", ""))
 
                 st.image(img_path)
                 st.caption(title)
