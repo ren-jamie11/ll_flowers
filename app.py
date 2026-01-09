@@ -193,7 +193,7 @@ if len(trimmed_df) > 0:
 else:
     st.info("No matching images found.")
 
-st.write(trimmed_df)
+# st.write(trimmed_df)
 
 if st.button("🎨 加载图片"):
     # If more than 24 images, randomly select 24 rows
@@ -218,7 +218,7 @@ if st.button("🎨 加载图片"):
 
     for idx, (_, row) in enumerate(trimmed_sample.iterrows()):
         with grid_cols[idx % 3]:
-            img_path = row["Main Img Link"]
+            img_path = row["图片链接"]
 
             try:
 
@@ -231,10 +231,9 @@ if st.button("🎨 加载图片"):
 
                 st.markdown(
                     f"""
-                    **Color:** {to_str(row.get("flower_colors", ""))}  
-                    **Plant:** {to_str(row.get("plant_type", ""))}  
-                    **Flowers:** {to_str(row.get("flower_type", []))}  
-                    **Store:** {to_str(row.get("store_name", []))}  
+                    **花:** {to_str(row.get("花", ""))}  
+                    **花色:** {to_str(row.get("花色", []))}  
+                    **商家:** {to_str(row.get("商家", []))}  
 
                     """
                 )
