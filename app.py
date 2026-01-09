@@ -380,7 +380,7 @@ st.title("🖼️ 人造花图库")
 
 # --- Load DataFrame ---
 df = pd.read_parquet("america_flower_df_chinese.parquet")
-filter_columns = ['品类', '颜色', '类型',  '独立站']
+filter_columns = ['品类', '颜色', '类型']
 
 trimmed_df = filter_dataframe(df, filter_columns) 
 
