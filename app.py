@@ -25,7 +25,7 @@ FLOWER_LIST = [" ",'hydrangea',
  'chrysanthemum',
  'carnation',
  'hellebore',
- 'poinsettia'
+ 'poinsettia',
  'sunflower',
  'zinnia',
  'lavender',
