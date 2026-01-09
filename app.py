@@ -149,6 +149,8 @@ COLOR_LIST = [" ",'white',
  'lavender',
  'violet']
 
+TYPE_LIST = ["", "single", "arrangement", "wreath"]
+
 from pandas.api.types import (
     is_categorical_dtype,
     is_datetime64_any_dtype,
@@ -243,8 +245,35 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
             for j, column in enumerate(to_filter_columns[i:i+3]):
                 col_widget = row_cols[j]
 
+                if column == '类型':
+                    col_widget.write(column)
+                    if f"keywords_{column}" not in st.session_state:
+                        st.session_state[f"keywords_{column}"] = set()
+                    if f"selected_keywords_{column}" not in st.session_state:
+                        st.session_state[f"selected_keywords_{column}"] = []
+
+                    col_widget.selectbox('类型',
+                                             options=TYPE_LIST, 
+                                             key=f"new_keyword_{column}",
+                                             on_change = add_keyword_1,
+                                             args=(column,),
+                            )
+                    
+                    col_widget.multiselect(
+                        "Keywords:",
+                        options=sorted(st.session_state[f"keywords_{column}"]),
+                        default=sorted(st.session_state[f"keywords_{column}"]),
+                        key=f"keyword_multiselect_{column}",
+                        on_change=on_multiselect_change,
+                        args=(column,),
+                    )
+
+                    curr_filter_list = st.session_state[f"keywords_{column}"]
+
+                    df = filter_rows_by_all_keywords(df, column, curr_filter_list, all_keywords = False)
+
                 # Handle list/array/dict columns with keyword filtering
-                if df[column].apply(lambda x: isinstance(x, (np.ndarray, list, dict))).any():
+                elif df[column].apply(lambda x: isinstance(x, (np.ndarray, list, dict))).any():
                     
                     col_widget.write(column)
 
@@ -254,7 +283,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                         st.session_state[f"selected_keywords_{column}"] = []
 
                     # add flower
-                    if column == "花":
+                    if column == "品类":
 
                         col_widget.selectbox('Flower',
                                              options=FLOWER_LIST[:15],
@@ -263,7 +292,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                                              args=(column,),
                             )
                         
-                    elif column == "花色":
+                    elif column == "颜色":
 
                         col_widget.selectbox('Color',
                                              options=COLOR_LIST,
@@ -350,7 +379,7 @@ st.title("🖼️ Flower Pictures")
 
 # --- Load DataFrame ---
 df = pd.read_parquet("america_flower_df_chinese.parquet")
-filter_columns = ['花', '花色', '产品总类', '载具', '商家', '花种类数量']
+filter_columns = ['品类', '颜色', '类型',  '独立站']
 
 trimmed_df = filter_dataframe(df, filter_columns) 
 
@@ -397,9 +426,9 @@ if st.button("🎨 加载图片"):
 
                 st.markdown(
                     f"""
-                    **花:** {to_str(row.get("花", ""))}  
-                    **花色:** {to_str(row.get("花色", []))}  
-                    **商家:** {to_str(row.get("商家", []))}  
+                    **品类:** {to_str(row.get("品类", ""))}  
+                    **颜色:** {to_str(row.get("颜色", []))}  
+                    **独立站:** {to_str(row.get("独立站", []))}  
 
                     """
                 )
