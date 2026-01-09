@@ -375,7 +375,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
 
 # --- Streamlit Setup ---
 st.set_page_config(page_title="Image Keyword Filter", layout="wide")
-st.title("🖼️ Flower Pictures")
+st.title("🖼️ 人造花图库")
 
 # --- Load DataFrame ---
 df = pd.read_parquet("america_flower_df_chinese.parquet")
