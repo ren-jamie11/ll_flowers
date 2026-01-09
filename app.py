@@ -189,7 +189,7 @@ filter_columns = ['花', '花色', '产品总类', '载具', '商家', '花种�
 trimmed_df = filter_dataframe(df, filter_columns) 
 
 if len(trimmed_df) > 0:
-    st.success(f"{len(trimmed_df)} items found!")
+    st.success(f"有{len(trimmed_df)}图片!")
 else:
     st.info("No matching images found.")
 
