@@ -90,7 +90,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
         if not filter_columns:
             filter_columns = df.columns
                 
-        to_filter_columns = st.multiselect("Filter dataframe on", filter_columns)
+        to_filter_columns = st.multiselect("参数", filter_columns)
 
         # Arrange widgets in rows of 3
         for i in range(0, len(to_filter_columns), 3):
