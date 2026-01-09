@@ -237,7 +237,6 @@ if st.button("🎨 Load Images"):
                     **Plant:** {to_str(row.get("plant_type", ""))}  
                     **Flowers:** {to_str(row.get("flower_type", []))}  
                     **Store:** {to_str(row.get("store_name", []))}  
-                    **上架日期:** {to_str(row.get("listing_date", []))}  
 
                     """
                 )
