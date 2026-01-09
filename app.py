@@ -272,12 +272,6 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                                              args=(column,),
                             )
 
-                    #     col_widget.text_input(
-                    #     f"flowerrrr {column}:",
-                    #     key=f"new_keyword_{column}",
-                    #     on_change=add_keyword_1,
-                    #     args=(column,),
-                    # )
 
                     else:
                         col_widget.text_input(
