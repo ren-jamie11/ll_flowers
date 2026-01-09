@@ -109,7 +109,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
                         st.session_state[f"selected_keywords_{column}"] = []
 
                     col_widget.text_input(
-                        f"Enter {column} keyword:",
+                        f"{column}:",
                         key=f"new_keyword_{column}",
                         on_change=add_keyword_1,
                         args=(column,),
@@ -183,11 +183,9 @@ st.set_page_config(page_title="Image Keyword Filter", layout="wide")
 st.title("🖼️ Flower Pictures")
 
 # --- Load DataFrame ---
-df = pd.read_parquet("final_flower_america_df.parquet")
-df = df.dropna(subset = ['plant_type', 'product_type'])
-df['how_many_flowers'] = df['flower_type'].apply(len)
+df = pd.read_parquet("america_flower_df_chinese.parquet")
+filter_columns = ['花', '花色', '产品总类', '载具', '商家', '花种类数量']
 
-filter_columns = ['flower_type', 'flower_colors', 'product_type', 'container', 'how_many_flowers', 'store_name']
 trimmed_df = filter_dataframe(df, filter_columns) 
 
 if len(trimmed_df) > 0:
@@ -197,7 +195,7 @@ else:
 
 st.write(trimmed_df)
 
-if st.button("🎨 Load Images"):
+if st.button("🎨 加载图片"):
     # If more than 24 images, randomly select 24 rows
     if len(trimmed_df) > 200:
         trimmed_sample = trimmed_df.head(200)
