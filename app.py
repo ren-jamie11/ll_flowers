@@ -65,7 +65,7 @@ def filter_dataframe(df: pd.DataFrame, filter_columns = []) -> pd.DataFrame:
     Adds a UI on top of a dataframe to let viewers filter columns.
     Widgets are arranged in rows of 3 columns.
     """
-    modify = st.checkbox("Add filters")
+    modify = st.checkbox("详细条件", value=True)
 
     if not modify:
         return df
